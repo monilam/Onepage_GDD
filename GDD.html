@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Design Template</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            display: grid;
+            width: 90%;
+            margin: auto;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 5px;
+            border: 2px solid black;
+            padding: 10px;
+        }
+        .box {
+            border: 1px solid black;
+            padding: 10px;
+            min-height: 60px;
+            text-align: left;
+            overflow: hidden;
+        }
+        .editable {
+            min-height: 50px;
+            width: 100%;
+        }
+        .full-width { grid-column: span 4; }
+        .half-width { grid-column: span 2; }
+        .third-width { grid-column: span 1; }
+        .controls {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Game Design Template</h1>
+    <div class="controls">
+        <button onclick="downloadAsImage()">Download as Image</button>
+        <button onclick="downloadAsPDF()">Download as PDF</button>
+    </div>
+    <div id="template" class="container">
+        <div class="box full-width">TITLE: <div contenteditable="true" class="editable"></div></div>
+        <div class="box full-width">ID: <div contenteditable="true" class="editable"></div></div>
+        <div class="box half-width">THEME: <div contenteditable="true" class="editable"></div></div>
+        <div class="box half-width">GENRE: <div contenteditable="true" class="editable"></div></div>
+        <div class="box full-width">KEY PILLARS: <div contenteditable="true" class="editable"></div></div>
+        <div class="box full-width">VISUAL STYLE: <div contenteditable="true" class="editable"></div></div>
+        <div class="box full-width">MUSIC & SOUND STYLE: <div contenteditable="true" class="editable"></div></div>
+        <div class="box full-width">STORY: <div contenteditable="true" class="editable"></div></div>
+        <div class="box half-width">MAIN AIM: <div contenteditable="true" class="editable"></div></div>
+        <div class="box half-width">MAIN MECH TO ACHIEVE AIM: <div contenteditable="true" class="editable"></div></div>
+        <div class="box half-width">ENABLERS (Active): <div contenteditable="true" class="editable"></div></div>
+        <div class="box half-width">ENABLERS (Passive): <div contenteditable="true" class="editable"></div></div>
+        <div class="box half-width">BLOCKERS (Active): <div contenteditable="true" class="editable"></div></div>
+        <div class="box half-width">BLOCKERS (Passive): <div contenteditable="true" class="editable"></div></div>
+        <div class="box full-width">CORE LOOP: <div contenteditable="true" class="editable"></div></div>
+        <div class="box half-width">WIN CONDITIONS: <div contenteditable="true" class="editable"></div></div>
+        <div class="box half-width">LOSE CONDITIONS: <div contenteditable="true" class="editable"></div></div>
+        <div class="box full-width">FEATURES: <div contenteditable="true" class="editable"></div></div>
+        <div class="box third-width">AUDIENCE: <div contenteditable="true" class="editable"></div></div>
+        <div class="box third-width">PLATFORM: <div contenteditable="true" class="editable"></div></div>
+        <div class="box third-width">TEAM: <div contenteditable="true" class="editable"></div></div>
+        <div class="box full-width">PERSONAL DEV GOAL: <div contenteditable="true" class="editable"></div></div>
+    </div>
+    <script>
+        function downloadAsImage() {
+            html2canvas(document.getElementById("template")).then(canvas => {
+                let link = document.createElement("a");
+                link.href = canvas.toDataURL("image/png");
+                link.download = "game-design-template.png";
+                link.click();
+            });
+        }
+        function downloadAsPDF() {
+            const { jsPDF } = window.jspdf;
+            html2canvas(document.getElementById("template")).then(canvas => {
+                let pdf = new jsPDF('l', 'mm', 'a4');
+                let imgData = canvas.toDataURL("image/png");
+                let imgWidth = 297;
+                let imgHeight = (canvas.height * imgWidth) / canvas.width;
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                pdf.save("game-design-template.pdf");
+            });
+        }
+    </script>
+</body>
+</html>
